@@ -139,20 +139,6 @@ For each step:
 
 The title, summary, objective, and goals should be concise and clear.";
 
-        return response()->json([
-            'diagnostic' => 'zytro-url-debug',
-            'file' => __FILE__,
-            'url' => 'https://ai.zytroapi.my.id/api/v1/chat/completions',
-            'scheme' => parse_url(
-                'https://ai.zytroapi.my.id/api/v1/chat/completions',
-                PHP_URL_SCHEME
-            ),
-            'host' => parse_url(
-                'https://ai.zytroapi.my.id/api/v1/chat/completions',
-                PHP_URL_HOST
-            ),
-        ]);
-
         $response = Http::withToken(config("services.zytro.api_key"))
             ->timeout(60)
             ->post(

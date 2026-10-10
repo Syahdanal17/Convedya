@@ -1,39 +1,110 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
-        @csrf
+@extends('layouts.learn')
 
-        <!-- Password Reset Token -->
+@section('title', 'Set a new password — Convedya')
+
+@push('styles')
+{{-- CSS dipakai bersama dengan halaman register & login --}}
+@vite(['resources/css/auth-register.css'])
+@endpush
+
+@section('content')
+<div class="rg-page">
+
+  {{-- ---------- Kiri: form ---------- --}}
+  <main class="rg-form-side">
+    <a href="{{ url('/') }}" class="rg-brand" aria-label="Convedya">c<span class="o-mark"></span>nved<span class="hi">y</span>a</a>
+
+    <div class="rg-form-wrap">
+      <h1>Set a new password</h1>
+      <p class="rg-sub">Pick something you'll remember this time.</p>
+
+      {{-- Breeze baru memakai password.store, versi lama password.update --}}
+      <form method="POST" action="{{ Route::has('password.store') ? route('password.store') : route('password.update') }}" class="rg-form" novalidate>
+        @csrf
         <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="rg-field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" value="{{ old('email', $request->email) }}"
+                 autocomplete="username" required
+                 data-hint="This should be the email we sent the link to."
+                 @error('email') aria-invalid="true" aria-describedby="email-err" @enderror>
+          @error('email') <p class="rg-err" id="email-err">{{ $message }}</p> @enderror
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div class="rg-field">
+          <label for="password">New password</label>
+          <div class="rg-pass">
+            <input id="password" name="password" type="password"
+                   autocomplete="new-password" required minlength="8" autofocus
+                   data-hint="Make it a good one. At least 8 characters."
+                   @error('password') aria-invalid="true" aria-describedby="password-err" @enderror>
+            <button type="button" class="rg-eye" aria-label="Show password" aria-pressed="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          @error('password') <p class="rg-err" id="password-err">{{ $message }}</p> @enderror
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        <div class="rg-field">
+          <label for="password_confirmation">Confirm new password</label>
+          <input id="password_confirmation" name="password_confirmation" type="password"
+                 autocomplete="new-password" required
+                 data-hint="Once more, just to be sure."
+                 @error('password_confirmation') aria-invalid="true" aria-describedby="confirm-err" @enderror>
+          @error('password_confirmation') <p class="rg-err" id="confirm-err">{{ $message }}</p> @enderror
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+        <button type="submit" class="rg-btn">Save new password</button>
+      </form>
+    </div>
+  </main>
+
+  {{-- ---------- Kanan: Veya ---------- --}}
+  <aside class="rg-veya" aria-live="polite">
+    <div class="rg-bubble" id="rg-bubble">
+      <b>Veya</b>
+      <span id="rg-say">Almost done. Choose a new password.</span>
+    </div>
+
+    <div class="rg-orb" id="rg-orb" aria-hidden="true">
+      <img src="{{ asset('images/veya.png') }}" alt="">
+    </div>
+  </aside>
+
+</div>
+@endsection
+
+@push('scripts')
+<script>
+  (function () {
+    var say   = document.getElementById('rg-say');
+    var orb   = document.getElementById('rg-orb');
+    var inputs = document.querySelectorAll('.rg-form input[data-hint]');
+
+    inputs.forEach(function (el) {
+      el.addEventListener('focus', function () {
+        say.textContent = el.dataset.hint;
+        orb.classList.remove('nudge'); void orb.offsetWidth; orb.classList.add('nudge');
+      });
+    });
+
+    var firstBad = document.querySelector('.rg-form [aria-invalid="true"]');
+    if (firstBad) {
+      firstBad.focus();
+      say.textContent = "Hmm, something needs another look.";
+    }
+
+    var eye = document.querySelector('.rg-eye');
+    var pw  = document.getElementById('password');
+    if (eye && pw) {
+      eye.addEventListener('click', function () {
+        var show = pw.type === 'password';
+        pw.type = show ? 'text' : 'password';
+        eye.setAttribute('aria-pressed', show);
+        eye.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+      });
+    }
+  })();
+</script>
+@endpush

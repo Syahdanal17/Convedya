@@ -1,31 +1,52 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
+@extends('layouts.learn')
+
+@section('title', 'Verify your email — Convedya')
+
+@push('styles')
+{{-- CSS dipakai bersama dengan halaman auth lainnya --}}
+@vite(['resources/css/auth-register.css'])
+@endpush
+
+@section('content')
+<div class="rg-page">
+
+  {{-- ---------- Kiri ---------- --}}
+  <main class="rg-form-side">
+    <a href="{{ url('/') }}" class="rg-brand" aria-label="Convedya">c<span class="o-mark"></span>nved<span class="hi">y</span>a</a>
+
+    <div class="rg-form-wrap">
+      <h1>Check your inbox</h1>
+      <p class="rg-sub">We sent a verification link to your email. Open it to activate your account.</p>
+
+      @if (session('status') == 'verification-link-sent')
+        <p class="rg-status" role="status">A new link is on its way to the email you registered with.</p>
+      @endif
+
+      <form method="POST" action="{{ route('verification.send') }}" class="rg-form">
+        @csrf
+        <button type="submit" class="rg-btn rg-btn-block">Resend verification email</button>
+      </form>
+
+      <p class="rg-note">Can't find it? Check your spam folder first.</p>
+
+      <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" class="rg-linkbtn">Log out</button>
+      </form>
+    </div>
+  </main>
+
+  {{-- ---------- Kanan: Veya ---------- --}}
+  <aside class="rg-veya" aria-live="polite">
+    <div class="rg-bubble" id="rg-bubble">
+      <b>Veya</b>
+      <span id="rg-say">{{ session('status') == 'verification-link-sent' ? 'Sent again! Give it a minute.' : 'I sent you a link. Tap it and we can start.' }}</span>
     </div>
 
-    @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
-        </div>
-    @endif
-
-    <div class="mt-4 flex items-center justify-between">
-        <form method="POST" action="{{ route('verification.send') }}">
-            @csrf
-
-            <div>
-                <x-primary-button>
-                    {{ __('Resend Verification Email') }}
-                </x-primary-button>
-            </div>
-        </form>
-
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-
-            <button type="submit" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                {{ __('Log Out') }}
-            </button>
-        </form>
+    <div class="rg-orb" id="rg-orb" aria-hidden="true">
+      <img src="{{ asset('images/veya.png') }}" alt="">
     </div>
-</x-guest-layout>
+  </aside>
+
+</div>
+@endsection

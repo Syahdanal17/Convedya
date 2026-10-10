@@ -35,4 +35,16 @@ return [
         ],
     ],
 
+    'zytro' => [
+        'url' => env('ZYTRO_URL'),
+        'model' => env('ZYTRO_MODEL'),
+        'api_key' => env('ZYTRO_API'),
+    ],
+
+    'fish_audio' => [
+        'url' => 'https://api.fish.audio/v1/tts',
+        'api_key' => env('FISH_AUDIO_API_KEY'),
+        'model' => env('FISH_AUDIO_MODEL', 's2.1-pro-free'),
+        'voice_id' => env('FISH_AUDIO_VOICE_ID'),
+    ],
 ];

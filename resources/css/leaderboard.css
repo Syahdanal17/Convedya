@@ -1,0 +1,89 @@
+/* Tambahan untuk halaman Leaderboard. Dipakai bersama dashboard.css (sidebar, kartu, tombol). */
+:root{
+  --gold:#F5C451;
+  --silver:#C5CAD8;
+  --bronze:#D98A5A;
+}
+
+/* ---------- Peringkat kamu ---------- */
+.lb-me{
+  display:flex; align-items:center; gap:28px; flex-wrap:wrap;
+  padding:20px 26px; margin-bottom:18px; border-radius:20px;
+  background:
+    radial-gradient(60% 140% at 90% 50%, rgba(127,0,255,.32), transparent 70%),
+    linear-gradient(135deg, #1a1236, #120E24);
+  border:1px solid rgba(163,75,255,.25);
+}
+.lb-me small{ display:block; font-size:12.5px; color:var(--muted); margin-bottom:4px; }
+.lb-me strong{ font:800 30px 'Sora',sans-serif; letter-spacing:-.02em; }
+.lb-me-hint{ flex:1; min-width:180px; margin:0; color:#B9BAD1; font-size:14.5px; line-height:1.5; }
+
+/* ---------- Podium ---------- */
+.lb-podium{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:14px; align-items:end;
+  margin-bottom:18px;
+}
+.lb-pod{
+  position:relative; display:flex; flex-direction:column; align-items:center; text-align:center; gap:6px;
+  padding:22px 14px 20px; border-radius:20px;
+  background:var(--panel); border:1px solid var(--line);
+}
+.lb-pod.place-1{ padding-top:38px; padding-bottom:28px; border-color:rgba(245,196,81,.45); background:linear-gradient(180deg, rgba(245,196,81,.10), var(--panel) 70%); }
+.lb-pod.me{ box-shadow:0 0 0 2px rgba(59,107,255,.6); }
+.lb-crown{ position:absolute; top:10px; width:22px; height:22px; color:var(--gold); }
+
+.lb-pod-avatar{
+  position:relative; width:64px; height:64px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font:700 24px 'Sora',sans-serif; color:#fff;
+  background:linear-gradient(135deg, var(--purple-2), var(--purple));
+  margin-bottom:8px;
+}
+.place-1 .lb-pod-avatar{ width:76px; height:76px; font-size:28px; box-shadow:0 0 0 3px var(--gold); }
+.place-2 .lb-pod-avatar{ box-shadow:0 0 0 3px var(--silver); }
+.place-3 .lb-pod-avatar{ box-shadow:0 0 0 3px var(--bronze); }
+.lb-pod-avatar em{
+  position:absolute; bottom:-8px; right:-4px; width:26px; height:26px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font:700 13px 'Sora',sans-serif; font-style:normal; color:#1a1236; border:2px solid var(--panel);
+}
+.place-1 .lb-pod-avatar em{ background:var(--gold); }
+.place-2 .lb-pod-avatar em{ background:var(--silver); }
+.place-3 .lb-pod-avatar em{ background:var(--bronze); }
+.lb-pod-name{ font:700 15px 'Sora',sans-serif; word-break:break-word; }
+.lb-pod-xp{ color:var(--muted); font-size:13.5px; }
+.place-1 .lb-pod-xp{ color:var(--gold); font-weight:600; }
+
+/* ---------- Daftar ---------- */
+.lb-list-card{ padding-bottom:10px; }
+.lb-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+.lb-row{
+  display:grid; grid-template-columns:34px 38px minmax(120px,1.2fr) minmax(80px,1fr) auto;
+  align-items:center; gap:14px; padding:12px 14px; border-radius:14px;
+  background:var(--panel-2); border:1px solid transparent;
+}
+.lb-row.me{ border-color:rgba(59,107,255,.5); background:rgba(59,107,255,.09); }
+.lb-rank{ font:700 15px 'Sora',sans-serif; color:var(--muted); text-align:center; }
+.lb-avatar{
+  width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font:700 15px 'Sora',sans-serif; color:#fff; background:rgba(255,255,255,.08);
+}
+.lb-row.me .lb-avatar{ background:var(--blue); }
+.lb-name{ font-weight:600; font-size:14.5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.lb-you{ margin-left:8px; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:600; background:var(--blue); color:#fff; }
+.lb-bar{ height:6px; border-radius:6px; background:rgba(255,255,255,.08); overflow:hidden; }
+.lb-bar i{ display:block; height:100%; border-radius:6px; background:linear-gradient(90deg, var(--blue), var(--purple-2)); }
+.lb-xp{ font:700 15px 'Sora',sans-serif; text-align:right; min-width:76px; }
+.lb-xp small{ color:var(--muted); font:500 12px 'Inter',sans-serif; }
+
+/* ---------- Responsif ---------- */
+@media (max-width:640px){
+  .lb-podium{ gap:8px; }
+  .lb-pod{ padding:18px 8px 16px; }
+  .lb-pod.place-1{ padding-top:34px; }
+  .lb-pod-avatar{ width:52px; height:52px; font-size:20px; }
+  .place-1 .lb-pod-avatar{ width:62px; height:62px; font-size:24px; }
+  .lb-pod-name{ font-size:13px; }
+  .lb-row{ grid-template-columns:28px 34px 1fr auto; gap:10px; padding:10px 12px; }
+  .lb-bar{ display:none; }
+}

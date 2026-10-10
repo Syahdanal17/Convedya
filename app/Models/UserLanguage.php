@@ -11,16 +11,17 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class UserLanguage
- * 
+ *
  * @property int $id
  * @property int $user_id
  * @property int $language_id
  * @property int $current_stage_id
  * @property float $progress
  * @property Carbon $created_at
- * @property Carbon $update_at
- * 
+ * @property Carbon $updated_at
+ *
  * @property Language $language
+ * @property Stage|null $current_stage
  * @property User $user
  *
  * @package App\Models
@@ -28,14 +29,13 @@ use Illuminate\Database\Eloquent\Model;
 class UserLanguage extends Model
 {
 	protected $table = 'user_languages';
-	public $timestamps = false;
 
 	protected $casts = [
 		'user_id' => 'int',
 		'language_id' => 'int',
 		'current_stage_id' => 'int',
 		'progress' => 'float',
-		'update_at' => 'datetime'
+		'updated_at' => 'datetime'
 	];
 
 	protected $fillable = [
@@ -43,7 +43,7 @@ class UserLanguage extends Model
 		'language_id',
 		'current_stage_id',
 		'progress',
-		'update_at'
+		'updated_at'
 	];
 
 	public function language()
@@ -51,8 +51,14 @@ class UserLanguage extends Model
 		return $this->belongsTo(Language::class);
 	}
 
+	public function current_stage()
+	{
+		return $this->belongsTo(Stage::class, 'current_stage_id');
+	}
+
 	public function user()
 	{
 		return $this->belongsTo(User::class);
 	}
+
 }

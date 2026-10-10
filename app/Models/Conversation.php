@@ -12,14 +12,14 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Conversation
- * 
+ *
  * @property int $id
  * @property int $user_id
  * @property int $lesson_id
  * @property Carbon $started_at
  * @property Carbon $ended_at
  * @property string $status
- * 
+ *
  * @property Lesson $lesson
  * @property User $user
  * @property Collection|Message[] $messages
@@ -32,28 +32,29 @@ class Conversation extends Model
 	public $timestamps = false;
 
 	protected $casts = [
-		'user_id' => 'int',
-		'lesson_id' => 'int',
-		'started_at' => 'datetime',
-		'ended_at' => 'datetime'
+		"user_id" => "int",
+		"lesson_id" => "int",
+		"started_at" => "datetime",
+		"ended_at" => "datetime",
 	];
 
 	protected $fillable = [
-		'user_id',
-		'lesson_id',
-		'started_at',
-		'ended_at',
-		'status'
-	];
-
-	public function lesson()
-	{
-		return $this->belongsTo(Lesson::class);
-	}
+        "user_id",
+        "lesson_id",
+        "system_prompt",
+        "started_at",
+        "ended_at",
+        "status",
+    ];
 
 	public function user()
 	{
 		return $this->belongsTo(User::class);
+	}
+
+	public function lesson()
+	{
+		return $this->belongsTo(Lesson::class);
 	}
 
 	public function messages()

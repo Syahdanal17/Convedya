@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Language
- * 
+ *
  * @property int $id
  * @property string|null $name
  * @property string|null $code
@@ -20,9 +20,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $is_active
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
+ *
  * @property Collection|Stage[] $stages
  * @property Collection|User[] $users
+ * @property Collection|UserLanguage[] $user_languages
  * @property Collection|UserProgress[] $user_progresses
  *
  * @package App\Models
@@ -30,6 +31,9 @@ use Illuminate\Database\Eloquent\Model;
 class Language extends Model
 {
 	protected $table = 'languages';
+
+
+
 
 	protected $casts = [
 		'is_active' => 'int'
@@ -50,11 +54,18 @@ class Language extends Model
 	public function users()
 	{
 		return $this->belongsToMany(User::class, 'user_languages')
-					->withPivot('id', 'current_stage_id', 'progress', 'update_at');
+					->withPivot('id', 'current_stage_id', 'progress', 'updated_at');
+	}
+
+	public function user_languages()
+	{
+		return $this->hasMany(UserLanguage::class);
 	}
 
 	public function user_progresses()
 	{
 		return $this->hasMany(UserProgress::class);
 	}
+
+
 }

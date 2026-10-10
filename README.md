@@ -83,7 +83,7 @@ Update Progress & XP
 
 Teknologi yang digunakan dapat disesuaikan dengan implementasi dan konfigurasi aktual proyek.
 
-## Klarifikasi mengenai riwayat Pengembangan dan Git
+## Disclaimer mengenai riwayat Pengembangan dan Git
 
 Selama tahap awal pengembangan, tim mengerjakan source code secara lokal. Namun, karena kelalaian dalam melakukan push secara berkala, perubahan yang telah dikerjakan belum seluruhnya tercatat pada riwayat commit di repository GitHub.
 

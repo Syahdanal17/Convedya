@@ -70,10 +70,7 @@
 
         public function generate(Request $request)
         {
-            return response()->json([
-                'debug_marker' => 'electric-boogaloo-test',
-                'controller' => __FILE__,
-            ]);
+            
             $request->validate([
                 "stage_id" => ["required", "integer", "exists:stages,id"],
             ]);

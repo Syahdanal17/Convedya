@@ -142,7 +142,7 @@ The title, summary, objective, and goals should be concise and clear.";
         $response = Http::withToken(config("services.zytro.api_key"))
             ->timeout(60)
             ->post(
-                config("services.zytro.url") . "/api/v1/chat/completions",
+                "https://ai.zytroapi.my.id/api/v1/chat/completions",
                 [
                     "stream" => false,
                     "model" => config("services.zytro.model"),

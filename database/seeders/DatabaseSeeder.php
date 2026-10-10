@@ -15,6 +15,9 @@ class DatabaseSeeder extends Seeder
             LanguageSeeder::class,
             StageSeeder::class,
             LessonSeeder::class,
+            LeaderboardSeeder::class,
+            UserProgressSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }

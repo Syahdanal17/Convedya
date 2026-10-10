@@ -7,6 +7,7 @@ use App\Models\Stage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class LessonController extends Controller
@@ -74,6 +75,16 @@ class LessonController extends Controller
         ]);
 
         $stage = Stage::with("language")->findOrFail($request->stage_id);
+
+        $url = config('services.zytro.url');
+
+        Log::info('Zytro configuration check', [
+            'url_configured' => filled($url),
+            'url_has_scheme' => is_string($url)
+                && in_array(parse_url($url, PHP_URL_SCHEME), ['http', 'https'], true),
+            'model_configured' => filled(config('services.zytro.model')),
+            'api_key_configured' => filled(config('services.zytro.api_key')),
+        ]);
 
         $prompt = "You are Convedya's lesson generator.
 Your job is to create one personalized conversational language-learning lesson.

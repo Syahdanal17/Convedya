@@ -1,10 +1,6 @@
 # Convedya
 
 <p align="center">
-  <img src="https://placehold.co/180x180/6366f1/ffffff?text=Convedya" width="160" alt="Logo Convedya">
-</p>
-
-<p align="center">
   <strong>Belajar Bahasa Melalui Percakapan Interaktif dengan AI</strong>
 </p>
 

@@ -1,5 +1,5 @@
-# Convedya
 
+<h1 align="center">Convedya</h1>
 <p align="center">
   <strong>Belajar Bahasa Melalui Percakapan Interaktif dengan AI</strong>
 </p>

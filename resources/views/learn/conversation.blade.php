@@ -145,15 +145,15 @@
 
     const SPEECH_LOCALES = {
         en: 'en-US',
-        jp: 'ja-JP', // your seeder uses "jp"
-        ja: 'ja-JP', // in case you fix the seeder to "ja"
+        jp: 'ja-JP',
+        ja: 'ja-JP',
         de: 'de-DE',
         ko: 'ko-KR',
         fr: 'fr-FR',
         es: 'es-ES',
         zh: 'zh-CN',
         it: 'it-IT',
-        pt: 'pt-PT', // use 'pt-BR' if you want Brazilian
+        pt: 'pt-PT',
         hi: 'hi-IN',
         ar: 'ar-SA',
         ru: 'ru-RU',
@@ -163,7 +163,7 @@
         nl: 'nl-NL',
         pl: 'pl-PL',
         sv: 'sv-SE',
-        no: 'nb-NO', // Norwegian Bokmål is what Chrome supports
+        no: 'nb-NO',
         el: 'el-GR',
     };
 

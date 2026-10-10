@@ -1,11 +1,8 @@
 **DISCLAIMER UNTUK PARA JURI**
 
 Pengembangan proyek Convedya dilakukan melalui lingkungan server lokal milik salah satu anggota tim kami, dengan memanfaatkan koneksi ZeroTier dan ekstensi Visual Studio Code Live Share. Dengan metode ini, seluruh anggota tim dapat bekerja pada lingkungan pengembangan yang sama, sehingga perubahan kode dapat dilihat secara langsung oleh anggota lainnya tanpa harus melakukan Git pull dan push untuk setiap perubahan atau menyiapkan lingkungan pengembangan secara terpisah di masing-masing perangkat.
-
 Kami memilih metode ini untuk memaksimalkan efisiensi waktu, mempermudah kolaborasi, dan mempercepat proses diskusi serta brainstorming selama pengerjaan proyek. Kami juga menyadari bahwa metode ini dapat memengaruhi bagaimana riwayat Git mencerminkan proses pengembangan dan kontribusi masing-masing anggota tim.
-
 Oleh karena itu, kami ingin menjelaskan hal ini terlebih dahulu agar tidak terjadi kesalahpahaman saat proses penilaian, khususnya ketika juri meninjau riwayat repositori Git kami. Kami tetap menghargai proses penilaian yang berlaku dan berharap penjelasan ini dapat menjadi konteks tambahan bagi para juri dalam memahami alur kerja tim kami.
-
 Terima kasih atas waktu dan perhatian para juri.
 
 <h1 align="center">Convedya</h1>

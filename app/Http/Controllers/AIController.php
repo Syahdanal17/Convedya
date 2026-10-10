@@ -245,6 +245,7 @@ PROMPT;
                     ]);
 
                     $xpChange += $progress->rewardLessonCompleted($userId, $languageId);
+                    app(\App\Services\AchievementService::class)->check($userId);
                 }
 
                 $stepCompleted = true;

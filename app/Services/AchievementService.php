@@ -9,21 +9,32 @@ use App\Models\UserProgress;
 
 class AchievementService
 {
-    public function check(User $user): void
+    /** Unlock every achievement whose requirement the user now meets. */
+    public function check(int $userId): void
     {
-        $metrics = [
-            'streak'        => (int) UserProgress::where('user_id', $user->id)->max('streak'),
-            'conversations' => Conversation::where('user_id', $user->id)->count(),
-            'lessons'       => (int) UserProgress::where('user_id', $user->id)->sum('completed_lessons'),
-            'xp'            => (int) UserProgress::where('user_id', $user->id)->sum('xp'),
+        $user = User::find($userId);
+        if (! $user) {
+            return;
+        }
+
+        // "Selesaikan percakapan pertama" = finished conversations only.
+        $stats = [
+            'conversations' => Conversation::where('user_id', $userId)
+                ->where('status', 'completed')
+                ->count(),
+            'streak' => (int) UserProgress::where('user_id', $userId)->max('streak'),
+            'xp' => (int) UserProgress::where('user_id', $userId)->sum('xp'),
+            'lessons' => (int) UserProgress::where('user_id', $userId)->sum('completed_lessons'),
         ];
 
-        $have = $user->achievements()->pluck('achievements.id')->all();
+        foreach (Achievement::all() as $a) {
+            [$type, $threshold] = array_pad(explode(':', (string) $a->requirement, 2), 2, null);
 
-        foreach (Achievement::whereNotIn('id', $have)->get() as $a) {
-            [$type, $value] = array_pad(explode(':', $a->requirement, 2), 2, null);
+            if ($type === null || $threshold === null || ! isset($stats[$type])) {
+                continue;
+            }
 
-            if (isset($metrics[$type]) && $metrics[$type] >= (int) $value) {
+            if ($stats[$type] >= (int) $threshold) {
                 $user->achievements()->syncWithoutDetaching([
                     $a->id => ['unlocked_at' => now()],
                 ]);

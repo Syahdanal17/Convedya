@@ -1,4 +1,4 @@
-# ---------- Tahap 1: build aset Vite ----------
+# Tahap 1: build aset Vite
 FROM node:20-alpine AS assets
 WORKDIR /app
 COPY package*.json ./
@@ -6,7 +6,7 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# ---------- Tahap 2: aplikasi Laravel (PHP + Apache) ----------
+# Tahap 2: aplikasi Laravel (PHP + Apache)
 FROM php:8.3-apache
 
 RUN apt-get update && apt-get install -y \

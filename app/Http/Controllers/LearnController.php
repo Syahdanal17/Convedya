@@ -97,9 +97,16 @@ class LearnController extends Controller
 
         $xpEarned = (int) (clone $progress)->sum('xp');
 
-        $streak = (int) (clone $progress)
-            ->where('updated_at', '>=', now()->subDay()->startOfDay())
-            ->max('streak');
+        $row = (clone $progress)->first();
+        $streak = 0;
+
+        if ($row && $row->last_activity_date) {
+            $last = \Illuminate\Support\Carbon::parse($row->last_activity_date);
+            // Still alive if the learner practiced today or yesterday.
+            if ($last->isToday() || $last->isYesterday()) {
+                $streak = (int) $row->streak;
+            }
+        }
 
         return view('learn.greetings', compact(
             'conversations',

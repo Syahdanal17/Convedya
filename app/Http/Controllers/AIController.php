@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 use App\Services\ProgressService;
+use App\Models\Stage;
+use App\Models\UserLanguage;
 
 class AIController extends Controller
 {
@@ -219,6 +221,24 @@ PROMPT;
                     $nextStep = $nextStep->fresh();
                 } else {
                     $conversation->lesson->update(['status' => 'completed']);
+                    $lesson = $conversation->lesson;
+                    $stage  = $lesson->stage;
+
+                    $nextStage = Stage::where('language_id', $stage->language_id)
+                        ->where(function ($q) use ($stage) {
+                            $q->where('order', '>', $stage->order)
+                            ->orWhere(fn ($q2) => $q2->where('order', $stage->order)->where('id', '>', $stage->id));
+                        })
+                        ->orderBy('order')
+                        ->orderBy('id')
+                        ->first();
+
+                    if ($nextStage) {
+                        UserLanguage::where('user_id', $userId)
+                            ->where('language_id', $languageId)
+                            ->where('current_stage_id', $stage->id)   // only advance if still on this stage
+                            ->update(['current_stage_id' => $nextStage->id]);
+                    }
                     $conversation->update([
                         'ended_at' => now(),
                         'status' => 'completed',

@@ -15,7 +15,7 @@ class LeaderboardController extends Controller
         $xpSub = '(select coalesce(sum(xp), 0) from user_progress where user_progress.user_id = users.id)';
 
         $users = User::query()
-            ->select('users.id', 'users.name')
+            ->select('users.id', 'users.name', 'users.profile_picture_url')
             ->withSum('user_progresses as total_xp', 'xp')
             ->orderByRaw("$xpSub desc")
             ->orderBy('users.id')
@@ -25,20 +25,14 @@ class LeaderboardController extends Controller
 
         $rank = 0;
         $prevXp = null;
-        $players = $users->values()->map(function ($u, $i) use (&$rank, &$prevXp, $authUser) {
-            $xp = (int) $u->total_xp;
-
-            if ($xp !== $prevXp) {
-                $rank = $i + 1;
-                $prevXp = $xp;
-            }
-
+        $players = $users->values()->map(function ($u, $i) use ($authUser) {
             return [
                 'id'   => $u->id,
                 'name' => $u->name,
-                'xp'   => $xp,
-                'rank' => $rank,
+                'xp'   => (int) $u->total_xp,
+                'rank' => $i + 1,
                 'me'   => $u->id === $authUser->id,
+                'avatar' => $u->avatar,
             ];
         });
 
@@ -47,7 +41,13 @@ class LeaderboardController extends Controller
         $me = [
             'name' => $authUser->name,
             'xp'   => $myXp,
-            'rank' => User::query()->whereRaw("$xpSub > ?", [$myXp])->count() + 1,
+            'rank' => User::query()
+                ->whereRaw("$xpSub > ?", [$myXp])
+                ->orWhere(function ($q) use ($xpSub, $myXp, $authUser) {
+                    $q->whereRaw("$xpSub = ?", [$myXp])
+                    ->where('users.id', '<', $authUser->id);
+                })
+                ->count() + 1,
         ];
 
         $aboveUser = User::query()

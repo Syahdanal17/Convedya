@@ -30,19 +30,20 @@
     </div>
 
     <div class="stepper">
-      @foreach ($lesson->lesson_steps->sortBy('step_number') as $index => $step)
-        @if ($index > 0)
-          <div class="connector"></div>
+    @php $orderedSteps = $lesson->lesson_steps->sortBy('step_number')->values(); @endphp
+    @foreach ($orderedSteps as $i => $step)
+        @if ($i > 0)
+        <div class="connector {{ $orderedSteps[$i - 1]->status === 'completed' ? 'filled' : '' }}"></div>
         @endif
 
         <div
-          class="step {{ $step->status === 'active' ? 'active' : '' }} {{ $step->status === 'completed' ? 'done' : '' }}"
-          data-step-number="{{ $step->step_number }}"
+        class="step {{ $step->status === 'active' ? 'active' : '' }} {{ $step->status === 'completed' ? 'done' : '' }}"
+        data-step-number="{{ $step->step_number }}"
         >
-          <div class="circle">{{ $step->step_number }}</div>
-          <span class="label">{{ $step->goal }}</span>
+        <div class="circle">{{ $step->step_number }}</div>
+        <span class="label">{{ $step->goal }}</span>
         </div>
-      @endforeach
+    @endforeach
     </div>
   </div>
 
@@ -106,6 +107,32 @@
     </div>
   </div>
 </main>
+
+<div class="complete" id="complete" hidden role="dialog" aria-modal="true" aria-labelledby="complete-title">
+  <h2 id="complete-title">Lesson selesai!</h2>
+
+  <div class="complete-art" aria-hidden="true">
+    <span class="spark s1"></span><span class="spark s2"></span>
+    <span class="spark s3"></span><span class="spark s4"></span>
+    <div class="complete-orb"></div>
+    <div class="complete-face">
+      <img src="{{ asset('images/veya-face.png') }}" alt="">
+    </div>
+  </div>
+
+  <div class="complete-stats">
+    <div class="stat-row">
+      <span class="stat-name">XP pelajaran</span>
+      <span class="stat-val"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg><b id="stat-lesson-xp">0</b></span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-name">Total XP</span>
+      <span class="stat-val"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg><b id="stat-total-xp">0</b></span>
+    </div>
+  </div>
+
+  <button type="button" class="complete-btn" id="complete-continue">Lanjut</button>
+</div>
 @endsection
 
 @push('scripts')
@@ -153,13 +180,62 @@
 
     let lessonCompleted = false;
     let resetSent = false;
+    let sessionXp = 0;
+
+    let currentAudio = null;
+    let currentAudioCleanup = null;
+    let ttsPending = false;
 
     const steps = Array.from(document.querySelectorAll('.stepper .step'));
+
+    function updateStepper(data) {
+        if (!data?.step_completed &&
+            data?.lesson_status !== 'completed') {
+            return;
+        }
+
+        // The currently active step has just been completed.
+        const completedStep = steps.find((step) =>
+            step.classList.contains('active')
+        );
+
+        if (completedStep) {
+            completedStep.classList.remove('active');
+            completedStep.classList.add('done');
+        }
+
+        // Activate the next step returned by Laravel.
+        if (data.current_step?.step_number != null) {
+            const nextStep = steps.find((step) =>
+                Number(step.dataset.stepNumber) ===
+                Number(data.current_step.step_number)
+            );
+
+            if (nextStep) {
+                nextStep.classList.remove('done');
+                nextStep.classList.add('active');
+            }
+        }
+
+        // Mark connectors after completed steps.
+        const connectors = Array.from(
+            document.querySelectorAll('.stepper .connector')
+        );
+
+        connectors.forEach((connector, index) => {
+            // connector.classList.toggle(
+            //     'done',
+            //     steps[index]?.classList.contains('done') ?? false
+            // );
+            connector.classList.toggle('filled', steps[index]?.classList.contains('done') ?? false);
+        });
+    }
 
     let line = null;
     let textEl = null;
     let finalText = '';
     let listening = false;
+
 
     function getCsrfToken() {
         return document
@@ -184,18 +260,46 @@
         });
     }
 
-    function addAIMessage(text) {
+    function addAIMessage(text, correction = null) {
         const line = document.createElement('div');
-
         line.className = 'line ai';
 
-        line.innerHTML = `
-            <span class="who">Veya</span>
-            <p></p>
-        `;
+        const who = document.createElement('span');
+        who.className = 'who';
+        who.textContent = 'Veya';
 
-        // Clean the visible text only.
-        line.querySelector('p').textContent = cleanDisplayText(text);
+        const reply = document.createElement('p');
+        reply.textContent = cleanDisplayText(text);
+
+        line.append(who, reply);
+
+        if (correction?.original && correction?.corrected) {
+            const card = document.createElement('div');
+            card.className = 'correction-note';
+
+            const title = document.createElement('span');
+            title.className = 'correction-title';
+            title.textContent = 'Small correction';
+
+            const original = document.createElement('span');
+            original.className = 'correction-original';
+            original.textContent = correction.original;
+
+            const arrow = document.createElement('span');
+            arrow.className = 'correction-arrow';
+            arrow.textContent = ' → ';
+
+            const corrected = document.createElement('span');
+            corrected.className = 'correction-corrected';
+            corrected.textContent = correction.corrected;
+
+            const comparison = document.createElement('div');
+            comparison.className = 'correction-comparison';
+            comparison.append(original, arrow, corrected);
+
+            card.append(title, comparison);
+            line.appendChild(card);
+        }
 
         transcript.appendChild(line);
         trimTranscript();
@@ -313,13 +417,49 @@
     }
 
     const endBtn = document.getElementById('end-btn');
+    let ending = false;
 
-    endBtn.addEventListener('click', () => {
-        // Stop mic and any playing audio before leaving
-        try { rec?.abort(); } catch (e) {}
-        window.speechSynthesis?.cancel();
+    endBtn.addEventListener('click', async () => {
+        const destination = endBtn.dataset.href;
 
-        window.location.href = endBtn.dataset.href;
+        endBtn.disabled = true;
+
+        try {
+            holding = false;
+            listening = false;
+
+            try {
+                rec.abort();
+            } catch (error) {
+                // Recognition may not have started.
+            }
+
+            stopCurrentAudio();
+            window.speechSynthesis?.cancel();
+
+            if (conversationId) {
+                const response = await fetch(
+                    `/api/conversations/${encodeURIComponent(conversationId)}/end`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': getCsrfToken(),
+                        },
+                    }
+                );
+
+                if (!response.ok) {
+                    console.warn(
+                        'Conversation could not be ended on the server.'
+                    );
+                }
+            }
+        } catch (error) {
+            console.error('Failed to end conversation:', error);
+        } finally {
+            window.location.href = destination;
+        }
     });
 
     if (!SR) {
@@ -336,6 +476,7 @@
     rec.continuous = true;
 
     function start() {
+        stopCurrentAudio();
         if (listening || !conversationReady) {
             return;
         }
@@ -413,7 +554,17 @@
         }
     };
 
+
+
+    function setSpeaking(on) {
+        orb.classList.toggle('is-speaking', on);
+    }
+
     async function speak(text) {
+        if (!text) return;
+
+        ttsPending = true;
+
         try {
             const response = await fetch('/api/ai/tts', {
                 method: 'POST',
@@ -421,9 +572,7 @@
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': getCsrfToken(),
                 },
-                body: JSON.stringify({
-                    text: text,
-                }),
+                body: JSON.stringify({ text }),
             });
 
             if (!response.ok) {
@@ -432,18 +581,90 @@
 
             const blob = await response.blob();
             const url = URL.createObjectURL(blob);
-
             const audio = new Audio(url);
 
-            audio.onended = () => {
-                URL.revokeObjectURL(url);
-            };
+            currentAudio = audio;
+            orb.classList.add('is-speaking');
 
-            await audio.play();
+            await new Promise((resolve) => {
+                let finished = false;
+
+                const finish = () => {
+                    if (finished) return;
+                    finished = true;
+
+                    orb.classList.remove('is-speaking');
+                    URL.revokeObjectURL(url);
+
+                    if (currentAudio === audio) {
+                        currentAudio = null;
+                    }
+
+                    if (currentAudioCleanup === finish) {
+                        currentAudioCleanup = null;
+                    }
+
+                    resolve();
+                };
+
+                currentAudioCleanup = finish;
+
+                audio.addEventListener('ended', finish, { once: true });
+                audio.addEventListener('error', finish, { once: true });
+
+                audio.play().catch((error) => {
+                    console.error('TTS playback error:', error);
+                    finish();
+                });
+            });
         } catch (error) {
             console.error('TTS ERROR:', error);
+        } finally {
+            ttsPending = false;
+            orb.classList.remove('is-speaking');
         }
     }
+
+    function stopCurrentAudio() {
+        if (currentAudio) {
+            currentAudio.pause();
+        }
+
+        if (currentAudioCleanup) {
+            currentAudioCleanup();
+        }
+
+        orb.classList.remove('is-speaking');
+        ttsPending = false;
+    }
+
+    const completeEl = document.getElementById('complete');
+    const continueBtn = document.getElementById('complete-continue');
+
+    function countUp(el, target, signed = false) {
+        const duration = 900;
+        const startTime = performance.now();
+
+        const tick = (now) => {
+            const p = Math.min((now - startTime) / duration, 1);
+            const v = Math.round(target * (1 - Math.pow(1 - p, 3)));
+            el.textContent = signed && v > 0 ? `+${v}` : v;
+            if (p < 1) requestAnimationFrame(tick);
+        };
+
+        requestAnimationFrame(tick);
+    }
+
+    function showComplete(data) {
+        completeEl.hidden = false;
+        countUp(document.getElementById('stat-lesson-xp'), sessionXp, true);
+        countUp(document.getElementById('stat-total-xp'), Number(data.xp_total) || 0);
+        continueBtn.focus();
+    }
+
+    continueBtn.addEventListener('click', () => {
+        window.location.href = endBtn.dataset.href;
+    });
 
     rec.onend = async () => {
 
@@ -474,9 +695,16 @@
 
             data = await sendMessage(message);
 
+            sessionXp += Number(data.xp_change) || 0;
+
             if (data.reply) {
-                addAIMessage(data.reply);
-                speak(data.reply);
+                addAIMessage(data.reply, data.correction);
+            }
+
+            updateStepper(data);
+
+            if (data.reply) {
+                await speak(data.reply);
             }
 
                if (data.lesson_status === 'completed') {
@@ -484,7 +712,7 @@
                     hint.textContent = data.xp_change ? `+${data.xp_change} XP` : 'Selamat!';
 
                     btn.disabled = true;
-                    setTimeout(() => { window.location.href = endBtn.dataset.href; }, 3500);
+                    showComplete(data);
                     return;
                 }
         } catch (error) {
@@ -541,10 +769,10 @@
     });
 
     createConversation()
-        .then((data) => {
+        .then(async (data) => {
             if (data.reply) {
-                addAIMessage(data.reply);
-                speak(data.reply);
+                addAIMessage(data.reply, data.correction);
+                await speak(data.reply);
             }
 
             hint.textContent =

@@ -27,7 +27,13 @@
         <p class="db-eyebrow">Peringkat berdasarkan XP</p>
         <h1>Leaderboard</h1>
       </div>
-      <a href="{{ route('profile.edit') }}" class="db-avatar" aria-label="Profil">{{ strtoupper(substr($user->name, 0, 1)) }}</a>
+      30  <a href="{{ route('profile.edit') }}" class="db-avatar" aria-label="Profil">
+      31    @if ($user->avatar)
+      32      <img src="{{ $user->avatar }}" alt="{{ $user->name }}">
+      33    @else
+      34      {{ strtoupper(substr($user->name, 0, 1)) }}
+      35    @endif
+      36  </a>
     </header>
 
     {{-- Peringkat kamu --}}
@@ -57,7 +63,14 @@
             @if ($i === 0)
               <svg class="lb-crown" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 18l-1-11 5 4 5-8 5 8 5-4-1 11H3z"/></svg>
             @endif
-            <span class="lb-pod-avatar">{{ strtoupper(substr($p['name'], 0, 1)) }}<em>{{ $p['rank'] }}</em></span>
+              <span class="lb-pod-avatar">
+                @if (!empty($p['avatar']))
+                  <img src="{{ $p['avatar'] }}" alt="{{ $p['name'] }}" loading="lazy">
+                @else
+                  {{ strtoupper(substr($p['name'], 0, 1)) }}
+                @endif
+                <em>{{ $p['rank'] }}</em>
+              </span>
             <strong class="lb-pod-name">{{ $p['name'] }}{{ !empty($p['me']) ? ' (Kamu)' : '' }}</strong>
             <span class="lb-pod-xp">{{ number_format($p['xp'], 0, ',', '.') }} XP</span>
           </div>
@@ -73,7 +86,13 @@
           @foreach ($rest as $p)
             <li class="lb-row {{ !empty($p['me']) ? 'me' : '' }}">
               <span class="lb-rank">{{ $p['rank'] }}</span>
-              <span class="lb-avatar">{{ strtoupper(substr($p['name'], 0, 1)) }}</span>
+                <span class="lb-avatar">
+                  @if (!empty($p['avatar']))
+                    <img src="{{ $p['avatar'] }}" alt="" loading="lazy">
+                  @else
+                    {{ strtoupper(substr($p['name'], 0, 1)) }}
+                  @endif
+                </span>
               <span class="lb-name">{{ $p['name'] }}@if (!empty($p['me'])) <b class="lb-you">Kamu</b>@endif</span>
               <span class="lb-bar"><i style="width: {{ round($p['xp'] / $maxXp * 100) }}%"></i></span>
               <span class="lb-xp">{{ number_format($p['xp'], 0, ',', '.') }} <small>XP</small></span>

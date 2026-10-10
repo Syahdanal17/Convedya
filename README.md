@@ -1,5 +1,5 @@
 
-<a class="app-brand" aria-label="Convedya">c<span class="o-mark"></span>nved<span class="hi">y</span>a</a>
+<h1 align="center">Convedya</h1>
 <p align="center">
   <strong>Belajar Bahasa Melalui Percakapan Interaktif dengan AI</strong>
 </p>

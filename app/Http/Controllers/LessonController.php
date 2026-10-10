@@ -139,9 +139,9 @@ For each step:
 
 The title, summary, objective, and goals should be concise and clear.";
 
-        Log::error('ZYTRO URL DIAGNOSTIC', [
+        return response()->json([
+            'diagnostic' => 'zytro-url-debug',
             'file' => __FILE__,
-            'line' => __LINE__,
             'url' => 'https://ai.zytroapi.my.id/api/v1/chat/completions',
             'scheme' => parse_url(
                 'https://ai.zytroapi.my.id/api/v1/chat/completions',

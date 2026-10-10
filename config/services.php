@@ -36,7 +36,7 @@ return [
     ],
 
     'zytro' => [
-        'url' => env('ZYTRO_URL'),
+        'url' => 'https://ai.zytroapi.my.id',
         'model' => env('ZYTRO_MODEL'),
         'api_key' => env('ZYTRO_API'),
     ],

@@ -2,8 +2,6 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import fs from 'node:fs';
 
-// Daftarkan otomatis semua file CSS dan JS di folder resources,
-// supaya tidak ada lagi error "Unable to locate file in Vite manifest".
 const entries = (dir, ext, skip = []) =>
     fs.existsSync(dir)
         ? fs
@@ -28,11 +26,5 @@ export default defineConfig({
     server: {
         host: '0.0.0.0',
         port: 5173,
-
-        origin: 'http://10.144.217.157:5173',
-
-        hmr: {
-            host: '10.144.217.157',
-        },
     },
 });

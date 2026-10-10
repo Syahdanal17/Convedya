@@ -1,3 +1,7 @@
+**DISCLAIMER UNTUK PARA JURI**
+
+Development dalam proyek Convedya dilakukan dalam lingkungan server, menggunakan koneksi Zerotier dan Extension visual studio code "Live share" yang terkoneksi ke server lokal salah satu anggota tim kami. Sehingga kita dapat melakukan penyuntingan, penyuntingan, pemeliharaan, dan pengelolaan, dan perubahaan-perubahaan dari anggota tim kami dapat dilihat oleh anggota lain secara langsung, tanpa perlu membutuhkan auditing, git pull & push maupun deployement dev di masing-masing perangkat keras anggota kami. Kami ingin bekerja secara efisien baik dalam, kolaborasi, waktu, dan brainstorming sehingga kita memilih jalur ini untuk memaksimalkan kinerja dalam pengerjaan proyek ini. tim kami sangat menyadari jika keputusan ini memiliki dampak dalam salah satu kriteria yang tertera dalam aturan lomba. Karena itu, kami ingin para juri untuk memahami situasi ini terlebih dahulu sebelum menilai proyek kami agar menghindari kebingungan dan miskomunikasi dari pihak anda dan tim kami. Terima kasih atas perhatian dan kerja sama tim juri dalam situasi ini, Kami mohon maaf atas ketidaknyamanan ini.
+
 
 <h1 align="center">Convedya</h1>
 <p align="center">
@@ -82,12 +86,6 @@ Update Progress & XP
 | [Git](https://git-scm.com) & [GitHub](https://github.com) | Version control dan kolaborasi |
 
 Teknologi yang digunakan dapat disesuaikan dengan implementasi dan konfigurasi aktual proyek.
-
-## Disclaimer mengenai riwayat Pengembangan dan Git
-
-Selama tahap awal pengembangan, tim mengerjakan source code secara lokal. Namun, karena kelalaian dalam melakukan push secara berkala, perubahan yang telah dikerjakan belum seluruhnya tercatat pada riwayat commit di repository GitHub.
-
-Akibatnya, Git history pada repository remote terlihat sedikit atau belum merepresentasikan proses pengembangan yang sebenarnya. Kondisi ini tidak berarti bahwa pengembangan proyek baru dimulai pada saat repository dipublikasikan.
 
 ## Tim Pengembang
 

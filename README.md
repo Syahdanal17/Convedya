@@ -1,13 +1,5 @@
 
-<p align="center">
-  <a href="https://github.com/USERNAME/Convedya" aria-label="Convedya">
-    <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=700&size=48&duration=1&pause=999999&color=6366F1&center=true&vCenter=true&repeat=false&width=380&height=80&lines=Convedya" alt="Convedya">
-  </a>
-</p>
-
-<p align="center">
-  <strong>Belajar Bahasa Melalui Percakapan Interaktif dengan AI</strong>
-</p>
+<p align="center"> <a href="https://github.com/Syahdanal17/Convedya" style="text-decoration: none; font-size: 48px; font-weight: 800; color: #f5f5f5;"> c<span style="color: #8b5cf6;">o</span>nved<span style="color: #8b5cf6;">y</span>a </a> </p>
 
 <p align="center">
   <strong>Belajar Bahasa Melalui Percakapan Interaktif dengan AI</strong>

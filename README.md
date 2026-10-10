@@ -1,58 +1,299 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Convedya
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://placehold.co/180x180/6366f1/ffffff?text=Convedya" width="160" alt="Logo Convedya">
 </p>
 
-## About Laravel
+<p align="center">
+  <strong>Belajar Bahasa Melalui Percakapan Interaktif dengan AI</strong>
+</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<p align="center">
+  Platform pembelajaran bahasa berbasis web yang menggabungkan percakapan interaktif, kecerdasan buatan, dan progression pembelajaran yang terstruktur.
+</p>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-Framework-FF2D20?logo=laravel&logoColor=white" alt="Laravel">
+  <img src="https://img.shields.io/badge/PHP-Backend-777BB4?logo=php&logoColor=white" alt="PHP">
+  <img src="https://img.shields.io/badge/Status-In%20Development-orange" alt="Status Pengembangan">
+  <img src="https://img.shields.io/badge/Language-Indonesia-red" alt="Bahasa Indonesia">
+</p>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Tentang Convedya
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**Convedya** merupakan gabungan dari kata *Conversation* dan *Vidya*, yang merepresentasikan pembelajaran melalui percakapan.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Convedya dirancang sebagai platform pembelajaran bahasa yang membantu pengguna berlatih menggunakan bahasa target melalui percakapan dengan AI Tutor. Pengguna dapat mengikuti tahapan pembelajaran, mencapai tujuan pada setiap lesson, dan memantau perkembangan kemampuan mereka.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Tidak hanya berfungsi sebagai chatbot, Convedya menggabungkan AI dengan sistem pembelajaran terstruktur yang dikelola oleh backend aplikasi.
 
-## Agentic Development
+## Fitur Utama
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+* **Pembelajaran Multibahasa** — Memilih bahasa yang ingin dipelajari.
+* **Generic Learning Progression** — Mengikuti tahapan pembelajaran berdasarkan tingkat kemampuan.
+* **AI-Generated Lessons** — Menghasilkan materi pembelajaran secara dinamis.
+* **AI Conversation** — Berlatih percakapan dengan AI Tutor.
+* **Speech-to-Text (STT)** — Mengubah ucapan pengguna menjadi teks.
+* **Text-to-Speech (TTS)** — Mengubah respons AI menjadi suara.
+* **Grammar Feedback** — Mendapatkan umpan balik dan saran perbaikan tata bahasa.
+* **Learning Progress** — Melacak penyelesaian lesson dan perkembangan pengguna.
+* **Gamifikasi** — Mendukung XP, achievement, dan leaderboard.
 
-```bash
-composer require laravel/boost --dev
+*Catatan: daftar tersebut mencakup fitur yang direncanakan dalam ruang lingkup proyek. Implementasi setiap fitur mengikuti status pengembangan terbaru.*
 
-php artisan boost:install
+## Alur Pembelajaran
+
+```text
+Register / Login
+       |
+       v
+  Pilih Bahasa
+       |
+       v
+Learning Progression
+       |
+       v
+ Generate Lesson
+       |
+       v
+  AI Conversation
+       |
+       +----> Speech-to-Text
+       |
+       +----> AI Tutor
+       |
+       +----> Text-to-Speech
+       |
+       v
+Lesson Evaluation
+       |
+       v
+Update Progress & XP
+       |
+       v
+  Next Lesson
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## Teknologi yang Digunakan
 
-## Contributing
+| Teknologi                                                 | Kegunaan                       |
+| --------------------------------------------------------- | ------------------------------ |
+| [Laravel](https://laravel.com)                            | Framework backend utama        |
+| [PHP](https://www.php.net)                                | Bahasa pemrograman backend     |
+| [Laravel Breeze](https://laravel.com/docs/starter-kits)   | Autentikasi pengguna           |
+| [Blade](https://laravel.com/docs/blade)                   | Template antarmuka             |
+| [Alpine.js](https://alpinejs.dev)                         | Interaksi antarmuka            |
+| [Tailwind CSS](https://tailwindcss.com)                   | Styling antarmuka              |
+| [Vite](https://vite.dev)                                  | Pengelolaan aset frontend      |
+| MySQL / SQLite                                            | Penyimpanan data               |
+| AI Services                                               | Generasi materi dan percakapan |
+| STT / TTS                                                 | Pemrosesan suara               |
+| [Git](https://git-scm.com) & [GitHub](https://github.com) | Version control dan kolaborasi |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Teknologi yang digunakan dapat disesuaikan dengan implementasi dan konfigurasi aktual proyek.
 
-## Code of Conduct
+## Arsitektur Sistem
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Convedya menggunakan Laravel sebagai pusat pengelolaan aplikasi dan database. AI berperan sebagai layanan pendukung pembelajaran.
 
-## Security Vulnerabilities
+```text
+             USER
+              |
+              v
+        CONVEDYA WEB
+              |
+              v
+           LARAVEL
+              |
+       +------+------+
+       |      |      |
+       v      v      v
+      Auth  Learning API
+                     |
+                     v
+                 AI SERVICE
+                     |
+              +------+------+
+              |      |      |
+              v      v      v
+             STT    LLM    TTS
+                     |
+                     v
+                 AI RESPONSE
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+         LARAVEL <--> DATABASE
+```
 
-## License
+Laravel bertanggung jawab atas autentikasi, otorisasi, progression, status lesson, XP, dan penyimpanan data. AI digunakan untuk membantu menghasilkan materi, menjalankan percakapan, memproses suara, serta memberikan umpan balik.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Instalasi
+
+### Persyaratan
+
+Pastikan perangkat telah memiliki:
+
+* PHP dengan versi yang sesuai dengan proyek.
+* Composer.
+* Node.js dan npm.
+* Database yang didukung konfigurasi proyek.
+* Git.
+
+### 1. Clone Repository
+
+```bash
+git clone <URL_REPOSITORY>
+cd Convedya
+```
+
+Ganti `<URL_REPOSITORY>` dengan URL repository Convedya.
+
+### 2. Instal Dependensi
+
+```bash
+composer install
+npm install
+```
+
+### 3. Siapkan Environment
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+Pada Windows Command Prompt, salin `.env.example` menjadi `.env` secara manual jika perintah `cp` tidak tersedia.
+
+### 4. Konfigurasi Database
+
+Sesuaikan konfigurasi database pada file `.env`.
+
+Contoh untuk MySQL:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=convedya
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Pastikan database sudah dibuat sebelum menjalankan migration.
+
+### 5. Jalankan Migration
+
+```bash
+php artisan migrate
+```
+
+Jika proyek menyediakan seeder untuk data awal:
+
+```bash
+php artisan db:seed
+```
+
+### 6. Jalankan Aplikasi
+
+Jalankan server Laravel:
+
+```bash
+php artisan serve
+```
+
+Jalankan Vite pada terminal terpisah:
+
+```bash
+npm run dev
+```
+
+Buka alamat lokal yang ditampilkan oleh Laravel, biasanya:
+
+http://127.0.0.1:8000
+
+## Konfigurasi AI
+
+Konfigurasi layanan AI dilakukan melalui environment variable sesuai implementasi provider yang digunakan.
+
+Contoh:
+
+```env
+AI_API_KEY=
+AI_BASE_URL=
+AI_MODEL=
+```
+
+Nama variabel tersebut merupakan contoh dan perlu disesuaikan dengan kode aplikasi.
+
+**Jangan mengunggah API key, token, password, atau file `.env` ke repository publik.**
+
+## Riwayat Pengembangan dan Git
+
+Selama tahap awal pengembangan, tim mengerjakan source code secara lokal. Namun, karena kelalaian dalam melakukan push secara berkala, perubahan yang telah dikerjakan belum seluruhnya tercatat pada riwayat commit di repository GitHub.
+
+Akibatnya, Git history pada repository remote masih kosong atau belum merepresentasikan proses pengembangan yang sebenarnya. Kondisi ini tidak berarti bahwa pengembangan proyek baru dimulai pada saat repository dipublikasikan.
+
+Sebagai tindak lanjut, tim akan menerapkan workflow Git yang lebih konsisten agar setiap perubahan dapat terdokumentasi dengan baik.
+
+Contoh format commit yang digunakan:
+
+```text
+feat: add language selection
+feat: implement lesson progression
+feat: integrate AI conversation
+fix: prevent duplicate lesson completion
+docs: update project documentation
+```
+
+## Kontribusi
+
+Convedya dikembangkan secara kolaboratif oleh tim.
+
+Kontribusi dilakukan melalui tahapan berikut:
+
+1. Sinkronkan branch dengan repository terbaru.
+2. Buat branch untuk fitur atau perbaikan.
+3. Implementasikan perubahan.
+4. Lakukan pengujian.
+5. Buat commit dengan pesan yang deskriptif.
+6. Push perubahan ke repository remote.
+7. Lakukan peninjauan melalui pull request apabila digunakan oleh tim.
+
+Contoh:
+
+```bash
+git switch -c feature/nama-fitur
+git add .
+git commit -m "feat: add nama fitur"
+git push -u origin feature/nama-fitur
+```
+
+## Keamanan
+
+Untuk menjaga keamanan aplikasi:
+
+* Simpan kredensial pada environment variable.
+* Jangan commit file `.env`.
+* Validasi input pada backend.
+* Terapkan authorization untuk data setiap pengguna.
+* Lindungi endpoint dan kredensial layanan AI.
+* Pastikan `.gitignore` telah dikonfigurasi dengan benar.
+
+## Tim Pengembang
+
+Convedya dikembangkan oleh tim dengan pembagian tanggung jawab:
+
+* **Frontend / UX** — Antarmuka dan pengalaman pengguna.
+* **Backend / Database** — Logika aplikasi, autentikasi, database, dan progression.
+* **AI / Integration** — Integrasi AI, pemrosesan suara, dan percakapan interaktif.
+
+## Lisensi
+
+Lisensi proyek akan ditentukan oleh tim pengembang. Informasi lisensi akan diperbarui setelah keputusan mengenai distribusi dan penggunaan source code ditetapkan.
+
+---
+
+<p align="center">
+  <strong>Convedya — Learn Through Conversation.</strong>
+</p>

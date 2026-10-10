@@ -12,6 +12,7 @@ use App\Models\UserProgress;
 use App\Services\ProfileStatsService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Cloudinary\Uploader;
 
 class ProfileController extends Controller
 {
@@ -46,8 +47,25 @@ class ProfileController extends Controller
         }
 
         if ($request->hasFile('profile_picture')) {
+            try {
+                $upload = Uploader::upload(
+                    $request->file('profile_picture')->getRealPath(),
+                    [
+                        'folder' => 'convedya/avatars',
+                        'resource_type' => 'image',
+                    ]
+                );
+            } catch (\Throwable $e) {
+                report($e);
+
+                return Redirect::back()
+                    ->withErrors([
+                        'profile_picture' => 'Failed to upload profile picture. Please try again.',
+                    ]);
+            }
+
             $this->deletePicture($user);
-            $user->profile_picture_url = $request->file('profile_picture')->store('avatars', 'public');
+            $user->profile_picture_url = $upload['secure_url'];
         } elseif ($request->boolean('remove_profile_picture')) {
             $this->deletePicture($user);
             $user->profile_picture_url = null;

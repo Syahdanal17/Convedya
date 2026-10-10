@@ -1,5 +1,14 @@
 
-<h1 align="center">Convedya</h1>
+<p align="center">
+  <a href="https://github.com/USERNAME/Convedya" aria-label="Convedya">
+    <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=700&size=48&duration=1&pause=999999&color=6366F1&center=true&vCenter=true&repeat=false&width=380&height=80&lines=Convedya" alt="Convedya">
+  </a>
+</p>
+
+<p align="center">
+  <strong>Belajar Bahasa Melalui Percakapan Interaktif dengan AI</strong>
+</p>
+
 <p align="center">
   <strong>Belajar Bahasa Melalui Percakapan Interaktif dengan AI</strong>
 </p>

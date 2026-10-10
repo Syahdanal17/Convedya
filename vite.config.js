@@ -1,10 +1,26 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import fs from 'node:fs';
+
+// Daftarkan otomatis semua file CSS dan JS di folder resources,
+// supaya tidak ada lagi error "Unable to locate file in Vite manifest".
+const entries = (dir, ext, skip = []) =>
+    fs.existsSync(dir)
+        ? fs
+              .readdirSync(dir)
+              .filter((file) => file.endsWith(ext) && !skip.includes(file))
+              .map((file) => `${dir}/${file}`)
+        : [];
+
+const input = [
+    ...entries('resources/css', '.css'),
+    ...entries('resources/js', '.js', ['bootstrap.js']),
+];
 
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
+            input,
             refresh: true,
         }),
     ],

@@ -48,9 +48,9 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
         @else
-          <button type="button" class="db-btn" onclick="document.getElementById('langPicker').showModal()">Pilih bahasa
+          <a href="{{ route('learn.greetings') }}" class="db-btn">pilih bahasa dulu
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </button>
+          </a>
         @endif
       </div>
       <img src="{{ asset('images/veya.png') }}" alt="Veya" class="db-hero-img">

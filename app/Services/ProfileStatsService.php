@@ -21,17 +21,20 @@
             $xp = (int) $totals->xp;
 
             // Streak only counts if progress was touched since yesterday
-            $streak = (int) UserProgress::where('user_id', $user->id)
-                ->where('updated_at', '>=', now()->subDay()->startOfDay())
-                ->max('streak');
+            $row = UserProgress::where('user_id', $user->id)
+                ->orderByDesc('last_activity_date')
+                ->first();
+
+            $streak = 0;
+            if ($row && $row->last_activity_date) {
+                $last = Carbon::parse($row->last_activity_date);
+                if ($last->isToday() || $last->isYesterday()) {
+                    $streak = (int) $row->streak;
+                }
+            }
 
             // Rank = 1 + number of users with strictly more total XP (ties share a rank)
-            $rank = 1 + DB::table('user_progress')
-                ->select('user_id')
-                ->groupBy('user_id')
-                ->havingRaw('SUM(xp) > ?', [$xp])
-                ->get()
-                ->count();
+            $rank = $this->rankFor($user, $xp);
 
             $conversationCount = Conversation::where('user_id', $user->id)->count();
 
@@ -98,5 +101,17 @@
                 'badges'      => $badges,
                 'earnedCount' => count($unlocked),
             ];
+        }
+
+        public function rankFor(User $user, int $xp): int
+        {
+            $xpSub = '(select coalesce(sum(xp), 0) from user_progress where user_progress.user_id = users.id)';
+
+            return 1 + User::query()
+                ->where(function ($q) use ($xpSub, $xp, $user) {
+                    $q->whereRaw("$xpSub > ?", [$xp])
+                    ->orWhere(fn ($q2) => $q2->whereRaw("$xpSub = ?", [$xp])->where('users.id', '<', $user->id));
+                })
+                ->count();
         }
     }
